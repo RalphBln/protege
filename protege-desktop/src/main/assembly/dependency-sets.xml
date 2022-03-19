@@ -38,7 +38,8 @@
                 <include>com.sun.xml.bind:jaxb-core:jar</include>
                 <include>com.sun.xml.bind:jaxb-impl:jar</include>
                 <include>com.sun.activation:javax.activation</include>
-                
+                <include>org.glassfish.corba:glassfish-corba-omgapi:jar</include>
+                <include>org.jacorb:jacorb:jar</include>
             </includes>
             <useStrictFiltering>true</useStrictFiltering>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
