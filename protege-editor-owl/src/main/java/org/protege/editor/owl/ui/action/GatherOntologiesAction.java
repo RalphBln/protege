@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -54,6 +55,15 @@ public class GatherOntologiesAction extends ProtegeOWLAction {
             }
             File originalFile = new File(originalPath);
             String originalFileName = originalFile.getName();
+            if (ont.getOntologyID().getVersionIRI().isPresent()) {
+                // ontology has version IRI. File name might be just a version number, which is likely to lead to name clashes
+                String lastVersionIRISegment = Arrays.stream(ont.getOntologyID().getVersionIRI().get().toString().split("/")).reduce((first, second) -> second).get();
+                String lastOntologyIRISegment = Arrays.stream(ont.getOntologyID().getOntologyIRI().get().toString().split("/")).reduce((first, second) -> second).get();
+                if (!lastVersionIRISegment.equals(lastOntologyIRISegment)) {
+                    originalFileName = lastOntologyIRISegment + "." + lastVersionIRISegment;
+                }
+            }
+            originalFileName += ".owl";
             File saveAsFile = new File(saveAsLocation, originalFileName);
 
             ontologySaverBuilder.addOntology(ont, format, IRI.create(saveAsFile));
